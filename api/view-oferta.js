@@ -5,11 +5,14 @@ export default async function handler(req, res) {
 
   const accessToken = 'EAAEZCxlkR04ABPFP9Xv0yCkQpNrSy52QmM9IWLS3vQkyghWasgisOYScXFJCMKjff2xZAUoo34YNwUEZBOCKuKE6V4JJbgSg5w0xt5HoYz7VAKU9BZAdE0oTbcp9l6XOHiB2DqMYp1TfA9jr9bZChj7CvJqOk8PFbBlTqOXw2hJuZBpMKSa0m2EXy0ZCdATMgZDZD';
   const pixelId = '1237017037714103';
+  const testEventCode = 'TEST99526';
 
   try {
-    const response = await globalThis.fetch(`https://graph.facebook.com/v18.0/${pixelId}/events?access_token=${accessToken}`, {
+    const response = await globalThis.fetch(`https://graph.facebook.com/v18.0/${pixelId}/events?access_token=${accessToken}&test_event_code=${testEventCode}`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify({
         data: [
           {
