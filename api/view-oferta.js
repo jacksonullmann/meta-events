@@ -11,7 +11,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const response = await fetch(`https://graph.facebook.com/v18.0/${pixelId}/events?access_token=${accessToken}`, {
+    const response = await globalThis.fetch(`https://graph.facebook.com/v18.0/${pixelId}/events?access_token=${accessToken}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
