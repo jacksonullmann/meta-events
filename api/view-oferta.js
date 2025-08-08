@@ -3,15 +3,8 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Método não permitido' });
   }
 
-  const accessToken = process.env.FB_ACCESS_TOKEN;
-  const pixelId = '1237017037714103';
-
-  if (!accessToken) {
-    return res.status(500).json({ error: 'Token de acesso não configurado' });
-  }
-
   try {
-    const response = await globalThis.fetch(`https://graph.facebook.com/v18.0/${pixelId}/events?access_token=${accessToken}`, {
+    const response = await globalThis.fetch('https://graph.facebook.com/v18.0/1237017037714103/events?access_token=EAAEZCxlkR04ABPFP9Xv0yCkQpNrSy52QmM9IWLS3vQkyghWasgisOYScXFJCMKjff2xZAUoo34YNwUEZBOCKuKE6V4JJbgSg5w0xt5HoYz7VAKU9BZAdE0oTbcp9l6XOHiB2DqMYp1TfA9jr9bZChj7CvJqOk8PFbBlTqOXw2hJuZBpMKSa0m2EXy0ZCdATMgZDZD', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -29,14 +22,9 @@ export default async function handler(req, res) {
     });
 
     const result = await response.json();
-
-    if (!response.ok) {
-      throw new Error(result.error?.message || 'Erro desconhecido');
-    }
-
     res.status(200).json({ status: 'Enviado com sucesso', result });
   } catch (error) {
-    console.error('Erro ao enviar evento:', error.message);
-    res.status(500).json({ error: error.message });
+    console.error('Erro ao enviar evento:', error);
+    res.status(500).json({ error: 'Erro interno do servidor' });
   }
 }
