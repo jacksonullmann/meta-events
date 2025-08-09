@@ -2,16 +2,20 @@ export default async function handler(req, res) {
   const accessToken = process.env.ACCESS_TOKEN;
   const pixelId = process.env.PIXEL_ID;
 
-  // Usa código de teste apenas fora de produção
-  const testEventCode = process.env.NODE_ENV === 'production' ? null : 'TEST99526';
+  // ✅ Define o código de teste como constante
+  const TEST_EVENT_CODE = 'TEST734';
+  const testEventCode = process.env.NODE_ENV === 'production' ? null : TEST_EVENT_CODE;
 
+  // ✅ Monta a URL com ou sem o código de teste
   const url = `https://graph.facebook.com/v18.0/${pixelId}/events?access_token=${accessToken}` +
               (testEventCode ? `&test_event_code=${testEventCode}` : '');
 
   try {
     const response = await fetch(url, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify({
         data: [{
           event_name: 'CliqueCheckout',
