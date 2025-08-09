@@ -1,11 +1,10 @@
 export default async function handler(req, res) {
-  const accessToken = 'EAAEZCxlkR04ABPFP9Xv0yCkQpNrSy52QmM9IWLS3vQkyghWasgisOYScXFJCMKjff2xZAUoo34YNwUEZBOCKuKE6V4JJbgSg5w0xt5HoYz7VAKU9BZAdE0oTbcp9l6XOHiB2DqMYp1TfA9jr9bZChj7CvJqOk8PFbBlTqOXw2hJuZBpMKSa0m2EXy0ZCdATMgZDZD';
-  const pixelId = '1237017037714103';
+  const accessToken = process.env.ACCESS_TOKEN;
+  const pixelId = process.env.PIXEL_ID;
 
-  // 👇 Condiciona o uso do código de teste
+  // Usa código de teste apenas fora de produção
   const testEventCode = process.env.NODE_ENV === 'production' ? null : 'TEST99526';
 
-  // 👇 Monta a URL com ou sem o código de teste
   const url = `https://graph.facebook.com/v18.0/${pixelId}/events?access_token=${accessToken}` +
               (testEventCode ? `&test_event_code=${testEventCode}` : '');
 
