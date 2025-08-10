@@ -21,7 +21,7 @@ export default async function handler(req, res) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         data: [{
-          event_name: 'ViewOferta',
+          event_name: 'CliqueOferta',
           event_time: Math.floor(Date.now() / 1000),
           action_source: 'website',
           event_source_url: 'https://celularpro.kpages.online/retratos',
