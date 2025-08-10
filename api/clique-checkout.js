@@ -1,11 +1,17 @@
 export default async function handler(req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
+
   const accessToken = process.env.ACCESS_TOKEN;
   const pixelId = process.env.PIXEL_ID;
-
-  // ✅ Define o código de teste como constante
   const testEventCode = process.env.NODE_ENV === 'production' ? null : process.env.TEST_EVENT_CODE;
 
-  // ✅ Monta a URL com ou sem o código de teste
   const url = `https://graph.facebook.com/v18.0/${pixelId}/events?access_token=${accessToken}` +
               (testEventCode ? `&test_event_code=${testEventCode}` : '');
 
