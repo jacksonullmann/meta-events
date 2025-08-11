@@ -23,7 +23,7 @@ export default async function handler(req, res) {
         data: [{
           event_name: 'ScrollInicio',
           event_time: Math.floor(Date.now() / 1000),
-          action_source: 'website',
+          action_source: 'server',
           event_source_url: 'https://celularpro.kpages.online/retratos',
           user_data: {
             client_ip_address: req.headers['x-forwarded-for'] || '0.0.0.0',
