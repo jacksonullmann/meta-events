@@ -9,21 +9,22 @@ export default async function handler(req, res) {
   const testEventCode = process.env.TEST_EVENT_CODE;
 
   const payload = {
-    test_event_code: process.env.TEST_EVENT_CODE,
-    data: [
-      {
-        event_name: 'ScrollInicio',
-        event_time: Math.floor(Date.now() / 1000),
-        action_source: 'website',
-        event_source_url: 'https://celularpro.kpages.online/retratos',
-        user_data: {
-          client_ip_address: req.headers['x-forwarded-for'] || req.socket.remoteAddress,
-          client_user_agent: req.headers['user-agent']
-        }
+  data: [
+    {
+      event_name: 'ScrollInicio',
+      event_time: Math.floor(Date.now() / 1000),
+      action_source: 'website',
+      event_source_url: 'https://celularpro.kpages.online/retratos',
+      user_data: {
+        client_ip_address: req.headers['x-forwarded-for'] || req.socket.remoteAddress,
+        client_user_agent: req.headers['user-agent']
+      },
+      custom_data: {
+        test_event_code: process.env.TEST_EVENT_CODE
       }
-    ]
-  };
-
+    }
+  ]
+};
   try {
     const response = await fetch(url, {
       method: 'POST',
