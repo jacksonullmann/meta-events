@@ -8,7 +8,7 @@ export default async function handler(req, res) {
   const url = `https://graph.facebook.com/v18.0/${pixelId}/events?access_token=${accessToken}`;
 
   const payload = {
-    test_event_code: 'TEST56515',
+    test_event_code: process.env.TEST_EVENT_CODE,
     data: [
       {
         event_name: 'ScrollInicio',
