@@ -6,25 +6,23 @@ export default async function handler(req, res) {
   const accessToken = process.env.ACCESS_TOKEN;
   const pixelId = process.env.PIXEL_ID;
   const url = `https://graph.facebook.com/v18.0/${pixelId}/events?access_token=${accessToken}`;
-  const testEventCode = process.env.TEST_EVENT_CODE;
 
- const payload = {
-  data: [
-    {
-      event_name: 'ScrollInicio',
-      event_time: Math.floor(Date.now() / 1000),
-      action_source: 'website',
-      event_source_url: 'https://celularpro.kpages.online/retratos',
-      user_data: {
-        client_ip_address: req.headers['x-forwarded-for'] || req.socket.remoteAddress,
-        client_user_agent: req.headers['user-agent']
-      },
-      custom_data: {
-        test_event_code: 'TEST75915'
+  const payload = {
+    test_event_code: 'TEST75915',
+    data: [
+      {
+        event_name: 'ScrollInicioServer',
+        event_time: Math.floor(Date.now() / 1000),
+        action_source: 'website',
+        event_source_url: 'https://celularpro.kpages.online/retratos',
+        user_data: {
+          client_ip_address: req.headers['x-forwarded-for'] || req.socket.remoteAddress,
+          client_user_agent: req.headers['user-agent']
+        }
       }
-    }
-  ]
-};
+    ]
+  };
+
   try {
     const response = await fetch(url, {
       method: 'POST',
