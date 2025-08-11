@@ -6,6 +6,7 @@ export default async function handler(req, res) {
   const accessToken = process.env.ACCESS_TOKEN;
   const pixelId = process.env.PIXEL_ID;
   const url = `https://graph.facebook.com/v18.0/${pixelId}/events?access_token=${accessToken}`;
+  const testEventCode = process.env.TEST_EVENT_CODE;
 
   const payload = {
     test_event_code: process.env.TEST_EVENT_CODE,
