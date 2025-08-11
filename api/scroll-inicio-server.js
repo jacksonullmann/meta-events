@@ -11,7 +11,7 @@ export default async function handler(req, res) {
  const payload = {
   test_event_code: 'TEST56515', // <- Adicione isso
   data: [{
-    event_name: 'ScrollInicio',
+    event_name: 'ScrollInicioServer',
     event_time: Math.floor(Date.now() / 1000),
     action_source: 'website',
     event_source_url: 'https://celularpro.kpages.online/retratos',
