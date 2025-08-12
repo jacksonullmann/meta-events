@@ -27,25 +27,25 @@ export default async function handler(req, res) {
   }
 
   // URL da Meta
-  const url = `https://graph.facebook.com/v18.0/${pixelId}/events?access_token=${accessToken}`;
+ const { event_name, event_id, test_event_code } = req.body;
 
-  // Payload do evento
-  const payload = {
-    ...(testEventCode && { test_event_code: testEventCode }),
-    data: [
-      {
-        event_name,
-        event_time: Math.floor(Date.now() / 1000),
-        event_id,
-        action_source: 'website',
-        event_source_url: 'https://celularpro.kpages.online/retratos',
-        user_data: {
-          client_ip_address: req.headers['x-forwarded-for'] || req.socket.remoteAddress,
-          client_user_agent: req.headers['user-agent'] || ''
-        }
+const payload = {
+  ...(test_event_code && { test_event_code }),
+  data: [
+    {
+      event_name,
+      event_time: Math.floor(Date.now() / 1000),
+      event_id,
+      action_source: 'website',
+      event_source_url: 'https://celularpro.kpages.online/retratos',
+      user_data: {
+        client_ip_address: req.headers['x-forwarded-for'] || req.socket.remoteAddress,
+        client_user_agent: req.headers['user-agent'] || ''
       }
-    ]
-  };
+    }
+  ]
+};
+
 
   // Envio para a Meta
   try {
