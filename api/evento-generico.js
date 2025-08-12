@@ -44,7 +44,9 @@ export default async function handler(req, res) {
   };
 
   // URL da Meta (corrigido!)
-  const url = `https://graph.facebook.com/v18.0/${pixelId}/events?access_token=${accessToken}`;
+  const url = `https://graph.facebook.com/v18.0/${pixelId}/events?access_token=${accessToken}` +
+            (test_event_code ? `&test_event_code=${test_event_code}` : '');
+
 
   // Envio para a Meta
   try {
