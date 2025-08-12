@@ -1,31 +1,21 @@
 export default async function handler(req, res) {
-  // CORS headers
+  // CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, x-modo-evento');
 
-  // Preflight response
-  if (req.method === 'OPTIONS') {
-    res.status(200).end();
-    return;
-  }
+  if (req.method === 'OPTIONS') return res.status(200).end();
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Método não permitido' });
 
-  // Método não permitido
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Método não permitido' });
-  }
-
-  // Variáveis de ambiente
   const accessToken = process.env.ACCESS_TOKEN;
   const pixelId = process.env.PIXEL_ID;
 
-  // Dados recebidos
-  const { event_name, event_id, test_event_code } = req.body;
+  const { event_name, event_id, test_event_code, fbp, fbc } = req.body;
+
   if (!event_name) {
     return res.status(400).json({ error: 'event_name é obrigatório' });
   }
 
-  // Payload do evento
   const payload = {
     ...(test_event_code && { test_event_code }),
     data: [
@@ -37,25 +27,23 @@ export default async function handler(req, res) {
         event_source_url: 'https://celularpro.kpages.online/retratos',
         user_data: {
           client_ip_address: req.headers['x-forwarded-for'] || req.socket.remoteAddress,
-          client_user_agent: req.headers['user-agent'] || ''
+          client_user_agent: req.headers['user-agent'] || '',
+          ...(fbp && { fbp }),
+          ...(fbc && { fbc })
         }
       }
     ]
   };
 
-  // URL da Meta (corrigido!)
   const url = `https://graph.facebook.com/v18.0/${pixelId}/events?access_token=${accessToken}` +
-            (test_event_code ? `&test_event_code=${test_event_code}` : '');
+    (test_event_code ? `&test_event_code=${test_event_code}` : '');
 
-
-  // Envio para a Meta
   try {
     const response = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
-
     const result = await response.json();
     res.status(200).json({ status: 'Evento enviado com sucesso', result });
   } catch (error) {
