@@ -26,6 +26,7 @@ const payload = {
     {
       event_name: 'ScrollInicioServer',
       event_time: Math.floor(Date.now() / 1000),
+      event_id: 'scroll_inicio_server_001', // ou versão dinâmica
       action_source: 'website',
       event_source_url: 'https://celularpro.kpages.online/retratos',
       user_data: {
