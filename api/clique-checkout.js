@@ -21,14 +21,16 @@ export default async function handler(req, res) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         data: [{
-          event_name: 'CliqueCheckout',
+          event_name: 'ScrollInicioServer',
+          event_id: 'srv_ScrollInicio_' + Date.now(),
           event_time: Math.floor(Date.now() / 1000),
           action_source: 'website',
-          event_source_url: 'https://celularpro.kpages.online/retratos',
+          event_source_url: req.headers.referer || 'https://seusite.com',
           user_data: {
-            client_ip_address: req.headers['x-forwarded-for'] || '0.0.0.0',
-            client_user_agent: req.headers['user-agent'] || ''
-          }
+            em: 'HASHED_EMAIL'
+          },
+          client_ip_address: req.headers['x-forwarded-for'] || '0.0.0.0',
+          client_user_agent: req.headers['user-agent'] || ''
         }]
       })
     });
