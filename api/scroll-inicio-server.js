@@ -20,7 +20,7 @@ export default async function handler(req, res) {
   // Detecta modo de teste
   const modo = req.headers['x-modo-evento'] || req.query.modo;
 const test_event_code = process.env.TEST_EVENT_CODE?.trim();
-const event_id = req.query.event_id || 'scroll_inicio_server_fallback';
+const event_id = req.body?.event_id || req.query.event_id || 'scroll_inicio_server_fallback';
 
 const payload = {
   ...(test_event_code && { test_event_code }),
