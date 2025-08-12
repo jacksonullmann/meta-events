@@ -26,18 +26,22 @@ export default async function handler(req, res) {
               (testEventCode ? `&test_event_code=${testEventCode}` : '');
 
   const payload = {
-    data: [{
+  ...(testEventCode && { test_event_code: testEventCode }),
+  data: [
+    {
       event_name,
       event_time: Math.floor(Date.now() / 1000),
       event_id,
       action_source: 'website',
       event_source_url: 'https://celularpro.kpages.online/retratos',
       user_data: {
-        client_ip_address: req.headers['x-forwarded-for'] || '0.0.0.0',
+        client_ip_address: req.headers['x-forwarded-for'] || req.socket.remoteAddress,
         client_user_agent: req.headers['user-agent'] || ''
       }
-    }]
-  };
+    }
+  ]
+};
+
 
   try {
     const response = await fetch(url, {
