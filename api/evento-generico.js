@@ -18,34 +18,33 @@ export default async function handler(req, res) {
   // Variáveis de ambiente
   const accessToken = process.env.ACCESS_TOKEN;
   const pixelId = process.env.PIXEL_ID;
-  const { event_name, event_id, test_event_code } = req.body;
-
 
   // Dados recebidos
-  const { event_name, event_id } = req.body;
+  const { event_name, event_id, test_event_code } = req.body;
   if (!event_name) {
     return res.status(400).json({ error: 'event_name é obrigatório' });
   }
 
-  // URL da Meta
- const { event_name, event_id, test_event_code } = req.body;
-
-const payload = {
-  ...(test_event_code && { test_event_code }),
-  data: [
-    {
-      event_name,
-      event_time: Math.floor(Date.now() / 1000),
-      event_id,
-      action_source: 'website',
-      event_source_url: 'https://celularpro.kpages.online/retratos',
-      user_data: {
-        client_ip_address: req.headers['x-forwarded-for'] || req.socket.remoteAddress,
-        client_user_agent: req.headers['user-agent'] || ''
+  // Payload do evento
+  const payload = {
+    ...(test_event_code && { test_event_code }),
+    data: [
+      {
+        event_name,
+        event_time: Math.floor(Date.now() / 1000),
+        event_id,
+        action_source: 'website',
+        event_source_url: 'https://celularpro.kpages.online/retratos',
+        user_data: {
+          client_ip_address: req.headers['x-forwarded-for'] || req.socket.remoteAddress,
+          client_user_agent: req.headers['user-agent'] || ''
+        }
       }
-    }
-  ]
-};
+    ]
+  };
+
+  // URL da Meta
+  const url = `https://graph.facebook.com/v18.0/${pixelId}/events?access_token=${accessToken}`;
 
   // Envio para a Meta
   try {
