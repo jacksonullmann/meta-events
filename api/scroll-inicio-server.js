@@ -18,23 +18,23 @@ export default async function handler(req, res) {
 
   // Detecta modo de teste
   const modo = req.headers['x-modo-evento'] || req.query.modo;
-const test_event_code = req.body?.test_event_code;
+  const test_event_code = modo === 'teste' ? process.env.TEST_EVENT_CODE : undefined;
 
-const payload = {
-  ...(test_event_code && { test_event_code }), // só inclui se existir
-  data: [
-    {
-      event_name: 'ScrollInicioServer',
-      event_time: Math.floor(Date.now() / 1000),
-      action_source: 'website',
-      event_source_url: 'https://celularpro.kpages.online/retratos',
-      user_data: {
-        client_ip_address: req.headers['x-forwarded-for'] || req.socket.remoteAddress,
-        client_user_agent: req.headers['user-agent']
+  const payload = {
+    ...(test_event_code && { test_event_code }),
+    data: [
+      {
+        event_name: 'ScrollInicioServer',
+        event_time: Math.floor(Date.now() / 1000),
+        action_source: 'website',
+        event_source_url: 'https://celularpro.kpages.online/retratos',
+        user_data: {
+          client_ip_address: req.headers['x-forwarded-for'] || req.socket.remoteAddress,
+          client_user_agent: req.headers['user-agent']
+        }
       }
-    }
-  ]
-};
+    ]
+  };
 
   try {
     const response = await fetch(url, {
