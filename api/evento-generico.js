@@ -43,7 +43,7 @@ export default async function handler(req, res) {
     ]
   };
 
-  // URL da Meta
+  // URL da Meta (corrigido!)
   const url = `https://graph.facebook.com/v18.0/${pixelId}/events?access_token=${accessToken}`;
 
   // Envio para a Meta
