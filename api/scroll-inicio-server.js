@@ -16,17 +16,19 @@ export default async function handler(req, res) {
   const pixelId = process.env.PIXEL_ID;
   const url = `https://graph.facebook.com/v18.0/${pixelId}/events?access_token=${accessToken}`;
 
+
   // Detecta modo de teste
   const modo = req.headers['x-modo-evento'] || req.query.modo;
 const test_event_code = process.env.TEST_EVENT_CODE?.trim();
+const event_id = req.query.event_id || 'scroll_inicio_server_fallback';
 
 const payload = {
-  ...(test_event_code && { test_event_code }), // só inclui se tiver valor
+  ...(test_event_code && { test_event_code }),
   data: [
     {
       event_name: 'ScrollInicioServer',
       event_time: Math.floor(Date.now() / 1000),
-      event_id: 'scroll_inicio_server_001', // ou versão dinâmica
+      event_id,
       action_source: 'website',
       event_source_url: 'https://celularpro.kpages.online/retratos',
       user_data: {
@@ -36,6 +38,7 @@ const payload = {
     }
   ]
 };
+
   
 // ✅ Adicione aqui:
 console.log('TEST_EVENT_CODE:', test_event_code);
