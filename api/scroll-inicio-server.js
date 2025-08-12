@@ -35,7 +35,11 @@ const payload = {
     }
   ]
 };
-
+  
+// ✅ Adicione aqui:
+console.log('TEST_EVENT_CODE:', test_event_code);
+console.log('Payload:', JSON.stringify(payload, null, 2));
+  
   try {
     const response = await fetch(url, {
       method: 'POST',
