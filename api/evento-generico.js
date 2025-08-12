@@ -18,7 +18,8 @@ export default async function handler(req, res) {
   // Variáveis de ambiente
   const accessToken = process.env.ACCESS_TOKEN;
   const pixelId = process.env.PIXEL_ID;
-  const testEventCode = process.env.NODE_ENV === 'production' ? null : process.env.TEST_EVENT_CODE;
+  const { event_name, event_id, test_event_code } = req.body;
+
 
   // Dados recebidos
   const { event_name, event_id } = req.body;
@@ -45,7 +46,6 @@ const payload = {
     }
   ]
 };
-
 
   // Envio para a Meta
   try {
