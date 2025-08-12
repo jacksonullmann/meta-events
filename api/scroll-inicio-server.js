@@ -27,7 +27,7 @@ export default async function handler(req, res) {
 
 
   const payload = {
-    test_event_code: 'TEST56515',
+    test_event_code: 'TEST75915',
     data: [
       {
         event_name: 'ScrollInicioServer',
