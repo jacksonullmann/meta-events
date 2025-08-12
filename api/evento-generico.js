@@ -22,8 +22,7 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'event_name é obrigatório' });
   }
 
-  const url = `https://graph.facebook.com/v18.0/${pixelId}/events?access_token=${accessToken}` +
-              (testEventCode ? `&test_event_code=${testEventCode}` : '');
+  const url = `https://graph.facebook.com/v18.0/${pixelId}/events?access_token=${accessToken}`;
 
   const payload = {
   ...(testEventCode && { test_event_code: testEventCode }),
