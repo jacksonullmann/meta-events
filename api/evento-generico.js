@@ -24,7 +24,7 @@ export default async function handler(req, res) {
         event_time: Math.floor(Date.now() / 1000),
         event_id,
         action_source: 'website',
-        event_source_url: 'https://celularpro.kpages.online/retratos',
+        event_source_url: 'https://celularpro.kpages.online/tecnicas',
         user_data: {
           client_ip_address: req.headers['x-forwarded-for'] || req.socket.remoteAddress,
           client_user_agent: req.headers['user-agent'] || '',
