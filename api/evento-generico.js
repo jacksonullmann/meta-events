@@ -28,6 +28,15 @@ export default async function handler(req, res) {
     lastName
   } = req.body;
 
+  console.log('Dados recebidos do frontend:', {
+  email: typeof email,
+  phone: typeof phone,
+  firstName: typeof firstName,
+  lastName: typeof lastName,
+  valores: { email, phone, firstName, lastName }
+});
+
+
   if (!event_name) {
     return res.status(400).json({ error: 'event_name é obrigatório' });
   }
