@@ -1,3 +1,9 @@
+import crypto from 'crypto';
+
+function hash(value) {
+  return crypto.createHash('sha256').update(value.trim().toLowerCase()).digest('hex');
+}
+
 export default async function handler(req, res) {
   // CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -10,15 +16,24 @@ export default async function handler(req, res) {
   const accessToken = process.env.ACCESS_TOKEN;
   const pixelId = process.env.PIXEL_ID;
 
-  const { event_name, event_id, test_event_code, fbp, fbc } = req.body;
+  const {
+    event_name,
+    event_id,
+    test_event_code,
+    fbp,
+    fbc,
+    email,
+    phone,
+    firstName,
+    lastName
+  } = req.body;
 
   if (!event_name) {
     return res.status(400).json({ error: 'event_name é obrigatório' });
   }
 
-  // Captura o IP do visitante (prioriza IPv6)
   const ipRaw = req.headers['x-forwarded-for']?.split(',')[0]?.trim() || req.socket.remoteAddress;
-  const isIPv6 = ipRaw?.includes(':'); // IPv6 contém ":" enquanto IPv4 contém "."
+  const isIPv6 = ipRaw?.includes(':');
 
   const payload = {
     ...(test_event_code && { test_event_code }),
@@ -30,10 +45,14 @@ export default async function handler(req, res) {
         action_source: 'website',
         event_source_url: 'https://celularpro.kpages.online/tecnicas',
         user_data: {
-          ...(isIPv6 && { client_ip_address: ipRaw }), // Só envia se for IPv6
+          ...(isIPv6 && { client_ip_address: ipRaw }),
           client_user_agent: req.headers['user-agent'] || '',
           ...(fbp && { fbp }),
-          ...(fbc && { fbc })
+          ...(fbc && { fbc }),
+          ...(email && { em: hash(email) }),
+          ...(phone && { ph: hash(phone) }),
+          ...(firstName && { fn: hash(firstName) }),
+          ...(lastName && { ln: hash(lastName) })
         }
       }
     ]
@@ -50,7 +69,7 @@ export default async function handler(req, res) {
     });
     const result = await response.json();
     console.log('Meta API response:', result);
-    console.log('IP enviado:', ipRaw); // 👈 Diagnóstico extra
+    console.log('IP enviado:', ipRaw);
     res.status(200).json({ status: 'Evento enviado com sucesso', result });
   } catch (error) {
     res.status(500).json({ error: error.message });
