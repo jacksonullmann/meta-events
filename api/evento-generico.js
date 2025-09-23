@@ -36,27 +36,27 @@ export default async function handler(req, res) {
   const isIPv6 = ipRaw?.includes(':');
 
   const payload = {
-    ...(test_event_code && { test_event_code }),
-    data: [
-      {
-        event_name,
-        event_time: Math.floor(Date.now() / 1000),
-        event_id,
-        action_source: 'website',
-        event_source_url: 'https://celularpro.kpages.online/tecnicas',
-        user_data: {
-          ...(isIPv6 && { client_ip_address: ipRaw }),
-          client_user_agent: req.headers['user-agent'] || '',
-          ...(fbp && { fbp }),
-          ...(fbc && { fbc }),
-          ...(email && { em: hash(email) }),
-          ...(phone && { ph: hash(phone) }),
-          ...(firstName && { fn: hash(firstName) }),
-          ...(lastName && { ln: hash(lastName) })
-        }
+  data: [
+    {
+      event_name,
+      event_time: Math.floor(Date.now() / 1000),
+      event_id,
+      action_source: 'website',
+      event_source_url: 'https://celularpro.kpages.online/tecnicas',
+      user_data: {
+        ...(isIPv6 && { client_ip_address: ipRaw }),
+        client_user_agent: req.headers['user-agent'] || '',
+        ...(fbp && { fbp }),
+        ...(fbc && { fbc }),
+        ...(email && { em: hash(email) }),
+        ...(phone && { ph: hash(phone) }),
+        ...(firstName && { fn: hash(firstName) }),
+        ...(lastName && { ln: hash(lastName) })
       }
-    ]
-  };
+    }
+  ]
+};
+
 
   const url = `https://graph.facebook.com/v18.0/${pixelId}/events?access_token=${accessToken}` +
     (test_event_code ? `&test_event_code=${test_event_code}` : '');
