@@ -68,6 +68,8 @@ export default async function handler(req, res) {
       body: JSON.stringify(payload)
     });
     const result = await response.json();
+    console.log('Dados recebidos:', { email, phone, firstName, lastName });
+    console.log('User Data enviado:', payload.data[0].user_data);
     console.log('Meta API response:', result);
     console.log('IP enviado:', ipRaw);
     res.status(200).json({ status: 'Evento enviado com sucesso', result });
