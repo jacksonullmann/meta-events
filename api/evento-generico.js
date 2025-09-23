@@ -73,10 +73,9 @@ export default async function handler(req, res) {
 
     // Logs para validação
     console.log('Dados recebidos:', { email, phone, firstName, lastName });
-    console.log('User Data enviado para Meta:', JSON.stringify(userData, null, 2));
+    console.warn('🔍 Dados enviados para Meta:\n', JSON.stringify(userData, null, 2));
     console.log('Meta API response:', result);
     console.log('IP enviado:', ipRaw);
-    console.log('User Data enviado para Meta:', JSON.stringify(userData, null, 2));
 
     res.status(200).json({ status: 'Evento enviado com sucesso', result });
   } catch (error) {
