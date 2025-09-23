@@ -40,10 +40,11 @@ export default async function handler(req, res) {
     client_user_agent: req.headers['user-agent'] || '',
     ...(fbp && { fbp }),
     ...(fbc && { fbc }),
-    ...(email && { em: hash(email) }),
-    ...(phone && { ph: hash(phone) }),
-    ...(firstName && { fn: hash(firstName) }),
-    ...(lastName && { ln: hash(lastName) })
+  ...(typeof email === 'string' && email && { em: hash(email) }),
+  ...(typeof phone === 'string' && phone && { ph: hash(phone) }),
+  ...(typeof firstName === 'string' && firstName && { fn: hash(firstName) }),
+  ...(typeof lastName === 'string' && lastName && { ln: hash(lastName) })
+
   };
 
   const payload = {
@@ -75,6 +76,7 @@ export default async function handler(req, res) {
     console.log('User Data enviado para Meta:', JSON.stringify(userData, null, 2));
     console.log('Meta API response:', result);
     console.log('IP enviado:', ipRaw);
+    console.log('User Data enviado para Meta:', JSON.stringify(userData, null, 2));
 
     res.status(200).json({ status: 'Evento enviado com sucesso', result });
   } catch (error) {
