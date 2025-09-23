@@ -69,7 +69,7 @@ export default async function handler(req, res) {
     });
     const result = await response.json();
     console.log('Dados recebidos:', { email, phone, firstName, lastName });
-    console.log('User Data enviado:', payload.data[0].user_data);
+    console.log('User Data enviado para Meta:', JSON.stringify(payload.data[0].user_data, null, 2));
     console.log('Meta API response:', result);
     console.log('IP enviado:', ipRaw);
     res.status(200).json({ status: 'Evento enviado com sucesso', result });
